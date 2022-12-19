@@ -1,0 +1,8 @@
+docker run \
+  --rm \
+   --name postgres \
+   -e POSTGRES_HOST_AUTH_METHOD=trust \
+   -v pgdate_rebase_labs:/var/lib/postgresql \
+   --network rebase_labs \
+   postgres
+   docker exec -it postgres bash -c "psql -U postgres"

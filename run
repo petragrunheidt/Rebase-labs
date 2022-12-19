@@ -1,0 +1,14 @@
+#!/bin/bash
+
+docker run \
+  --rm \
+  --name rebase-labs \
+  -w /app \
+  -v $(pwd):/app \
+  -v rubygems_rebase_labs:/usr/local/bundle
+  -p 3000:3000 \
+  --network rebase_labs \
+  ruby \
+  bash -c "gem install rack sinatra puma && ruby server.rb"
+
+conn = PG.connect(host: 'postgres', dbname: 'postgres', user: 'postgres')
