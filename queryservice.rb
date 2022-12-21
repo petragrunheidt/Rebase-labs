@@ -1,12 +1,23 @@
 require 'pg'
 
-class QueryService
-  def set_conn
+module QueryService
+  
+  def self.all
+    set_conn.exec("SELECT * FROM EXAM_DATA")
+  end
+
+  def self.populate
+    self.create_table
+    self.insert_values
+  end
+  
+  def self.set_conn
     PG.connect(host: 'postgres', dbname: 'postgres', user: 'postgres')
   end
 
-  def create_table
-    conn = set_conn
+  def self.create_table
+    conn = self.set_conn
+    conn.exec("DROP TABLE EXAM_DATA")
     conn.exec("
               CREATE TABLE EXAM_DATA (
               id SERIAL PRIMARY KEY,
@@ -29,7 +40,8 @@ class QueryService
              ") 
   end
 
-  def insert_values
+  def self.insert_values
+    conn = self.set_conn
     csv_parse.each do |row_insert|
       conn.exec("
         INSERT INTO EXAM_DATA (cpf, nome_paciente, email_paciente, data_nascimento_paciente,
@@ -44,7 +56,7 @@ class QueryService
     end
   end
 
-  def csv_parse
+  def self.csv_parse
     rows = CSV.read("./data.csv", col_sep: ';')
     columns = rows.shift
 
