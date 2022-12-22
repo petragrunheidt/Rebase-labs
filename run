@@ -4,10 +4,11 @@ docker run \
   --rm \
   --name rebase-labs \
   -w /app \
-  -e POSTGRES_HOST_AUTH_METHOD=trust \
   -v $(pwd):/app \
   -v rubygems_rebase_labs:/usr/local/bundle \
   -p 3000:3000 \
+  --network rebase-labs \
   ruby \
-  bash -c "gem install rack rspec capybara rack-test sinatra pg puma && ruby server.rb" \
+  bash -c "gem install rack rack-test guard guard-rspec rack-test sinatra pg puma && ruby server.rb" \
+  bash -c "guard init rspec" \
 

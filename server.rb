@@ -6,10 +6,11 @@ require 'pg'
 require_relative 'queryservice'
 
 get '/tests' do
-  QueryService.populate
-  exam_table = QueryService.all
-
-  return exam_table.to_json
+  conn = PG.connect(host: 'postgres', dbname: 'postgres', user: 'postgres')
+  exam_table = conn.exec("SELECT * FROM EXAM_DATA;")
+  json_data = []
+  exam_table.each {|row| json_data << row.to_json}
+  return json_data
 end
 
 get '/hello' do
