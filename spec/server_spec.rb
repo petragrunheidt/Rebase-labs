@@ -1,4 +1,5 @@
-require_relative '../server.rb'
+require 'sinatra'
+require './server.rb'
 require 'rspec'
 require 'rack/test'
 

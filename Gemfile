@@ -1,0 +1,11 @@
+source 'https://rubygems.org'
+
+gem 'sinatra'
+gem 'sinatra-contrib'
+gem 'pry'
+gem 'puma'
+gem 'rack'
+gem 'rack-test'
+gem 'bootstrap'
+gem 'pg'
+gem 'capybara'
