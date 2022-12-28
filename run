@@ -10,6 +10,5 @@ docker run \
   -p 3000:3000 \
   --network rebase-labs \
   ruby \
-  bash -c "gem install rack rack-test guard guard-rspec sinatra pg puma capybara && ruby server.rb" \
-  bash -c "guard init rspec" \
+  bash -c "bundle && ruby server.rb" \
 

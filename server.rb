@@ -14,10 +14,10 @@ end
 
 get '/api/tests' do
   conn = PG.connect(host: 'postgres', dbname: 'postgres', user: 'postgres')
-  exam_table = conn.exec("SELECT * FROM EXAM_DATA;")
-  json_data = []
-  exam_table.each {|row| json_data << row.to_json}
-  return json_data.to_json
+  exam_table = conn.exec("SELECT * FROM EXAM_DATA").to_a
+
+  json_data = exam_table.to_json
+  return json_data
 end
 
 Rack::Handler::Puma.run(
