@@ -1,12 +1,6 @@
-require 'sinatra'
-require './server.rb'
-require 'rspec'
-require 'rack/test'
-
-set :environment, :test
+require 'spec_helper'
 
 describe 'Server Service' do
-  include Rack::Test::Methods
 
   def app
     Sinatra::Application
@@ -14,11 +8,11 @@ describe 'Server Service' do
 
   it "should load the home page" do
     get '/'
-    expect(last_response).to be_ok
+    expect(last_response.status).to eq 200
   end
 
   it "should load the other page" do
     get '/tests'
-    expect(last_response).to be_ok
+    expect(last_response.status).to eq 200
   end
 end

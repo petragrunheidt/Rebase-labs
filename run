@@ -1,6 +1,6 @@
 #!/bin/bash
 
-docker run \
+docker run -it \
   --rm \
   --name rebase-labs \
   -w /app \
@@ -10,5 +10,5 @@ docker run \
   -p 3000:3000 \
   --network rebase-labs \
   ruby \
-  bash -c "bundle && ruby server.rb" \
+  bash -c "bundler install && bundle && bundle exec rspec --init && ruby server.rb" \
 
