@@ -74,6 +74,7 @@ GEM
       racc (~> 1.4)
     pg (1.4.5)
     popper_js (2.11.6)
+    power_assert (2.0.3)
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -141,6 +142,8 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     sqlite3 (1.5.4-x86_64-linux)
+    test-unit (3.5.7)
+      power_assert
     thor (1.2.1)
     tilt (2.0.11)
     tzinfo (2.0.5)
@@ -167,6 +170,7 @@ DEPENDENCIES
   sinatra
   sinatra-contrib
   sqlite3
+  test-unit
 
 BUNDLED WITH
    2.3.26

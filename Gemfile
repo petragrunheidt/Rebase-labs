@@ -9,6 +9,7 @@ gem 'rack'
 gem 'rack-test'
 gem 'puma'
 gem "activesupport"
+gem 'test-unit'
 
 group :development, :test do
   gem 'pry'
