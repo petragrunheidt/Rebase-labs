@@ -7,13 +7,18 @@
   <body>
     <div class="container-fluid" >
       <h1 style="padding: 3%;">Tabela de Dados de Exames</h1>
-      <div id="build-button" style="text-align: center;">
+      <div id="build-button" style="text-align: right;">
         <button id="start" onclick="buildTable(page)">Carregar dados de Exames</button>
+      </div>
+      <div id="token">
+        <input type="text" id="token-input"/>
+        <button id="token-button">Carregar dados por token</button>
       </div>
       <table  class="table table-striped" >
         <thead></thead>
         <tbody></tbody>
       </table>
+      <div id="results-token" style="text-align: left;""></div>
       <label id="test"></label>
     </div>
     <div class="rspec-wait"></div>
