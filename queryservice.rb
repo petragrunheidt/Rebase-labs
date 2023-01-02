@@ -7,16 +7,46 @@ class QueryService
     @conn = PG.connect(host: 'postgres', dbname: 'postgres', user: 'postgres')
   end
 
-  def populate
-    create_table
-    insert_values
-    @conn.close
+  def all(table_name)
+    @conn.exec("SELECT token_resultado_exame, data_exame, cpf, nome_paciente,
+        email_paciente, data_nascimento_paciente, crm_médico, crm_médico_estado,
+        nome_médico, tipo_exame, limites_tipo_exame, resultado_tipo_exame FROM #{table_name}").to_a
   end
 
-  def create_table
-    @conn.exec("DROP TABLE IF EXISTS EXAM_DATA;")
+  def query_interval(table_name, first, last)
+    @conn.exec("SELECT token_resultado_exame, data_exame, cpf, nome_paciente,
+       email_paciente, data_nascimento_paciente, crm_médico, crm_médico_estado,
+       nome_médico, tipo_exame, limites_tipo_exame, resultado_tipo_exame FROM #{table_name}").to_a[first..last]
+  end
+
+  def select_by_token(table_name, token)
+    table = @conn.exec("SELECT token_resultado_exame, data_exame, cpf, nome_paciente,
+        email_paciente, data_nascimento_paciente, crm_médico, crm_médico_estado,
+        nome_médico, tipo_exame, limites_tipo_exame, resultado_tipo_exame FROM #{table_name} WHERE token_resultado_exame = '#{token}'").to_a
+    
+    doctor_data = {crm: table[0]['crm_médico'], estado: table[0]['crm_médico_estado'], nome: table[0]['nome_médico']}    
+    exams = [] 
+    table.each { |entry| exams << {tipo: entry['tipo_exame'], limites: entry['limites_tipo_exame'], resultados: entry['resultado_tipo_exame']}}    
+    
+    return {token: table[0]['token_resultado_exame'],
+            data: table[0]['data_exame'],
+            cpf: table[0]['cpf'],
+            nome: table[0]['nome_paciente'],
+            email: table[0]['email_paciente'],
+            data_de_nascimento: table[0]['data_nascimento_paciente'],
+            médico: doctor_data,
+            exames: exams}
+  end
+
+  def populate(path, table_name)
+    create_table(table_name)
+    insert_values(path, table_name)
+  end
+
+  def create_table(table_name)
+    @conn.exec("DROP TABLE IF EXISTS #{table_name};")
     @conn.exec("
-              CREATE TABLE EXAM_DATA (
+              CREATE TABLE #{table_name} (
               id SERIAL PRIMARY KEY,
               cpf VARCHAR(24) NOT NULL,
               nome_paciente VARCHAR(64) NOT NULL,
@@ -37,10 +67,10 @@ class QueryService
              ")
   end
 
-  def insert_values
-    csv_parse.each do |row_insert|
+  def insert_values(path, table_name)
+    csv_parse(path).each do |row_insert|
       @conn.exec("
-        INSERT INTO EXAM_DATA (cpf, nome_paciente, email_paciente, data_nascimento_paciente,
+        INSERT INTO #{table_name} (cpf, nome_paciente, email_paciente, data_nascimento_paciente,
                                endereço_paciente, cidade_paciente, estado_paciente, crm_médico,
                                crm_médico_estado, nome_médico, email_médico, token_resultado_exame,
                                data_exame, tipo_exame, limites_tipo_exame, resultado_tipo_exame)
@@ -52,8 +82,8 @@ class QueryService
     end
   end
 
-  def csv_parse
-    rows = CSV.read("./data.csv", col_sep: ';')
+  def csv_parse(path)
+    rows = CSV.read(path, col_sep: ';')
     columns = rows.shift
 
     rows.map do |row|
@@ -65,4 +95,4 @@ class QueryService
   end
 end
 
-QueryService.new.populate
+QueryService.new.populate("./data.csv", 'EXAM_DATA')

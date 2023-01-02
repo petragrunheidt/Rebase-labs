@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'thin'
 gem 'sinatra', require: 'sinatra/base'
 gem 'sinatra-contrib'
 gem 'sqlite3'
@@ -17,4 +18,5 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'capybara'
   gem 'launchy'
+  gem "selenium-webdriver"
 end
