@@ -11,12 +11,13 @@ gem 'rack-test'
 gem 'puma'
 gem "activesupport"
 gem 'test-unit'
+gem 'nio'
 
 group :development, :test do
+  gem "selenium-webdriver"
   gem 'pry'
   gem 'rspec'
   gem 'database_cleaner'
   gem 'capybara'
   gem 'launchy'
-  gem "selenium-webdriver"
 end

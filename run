@@ -12,3 +12,5 @@ docker run -it \
   ruby \
   bash -c "bundler install && bundle && bundle exec rspec --init && ruby server.rb" \
 
+
+
