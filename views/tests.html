@@ -1,24 +1,30 @@
+
 <!DOCTYPE html>
 <html>
   <head>
     <title>Tabela de Exames</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
   </head>
-  <body>
-    <div class="container-fluid" >
-      <h1 style="padding: 3%;">Tabela de Dados de Exames</h1>
-      <div id="build-button" style="text-align: right;">
-        <button id="start" onclick="buildTable(page)">Carregar dados de Exames</button>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-info">
+    <a class="navbar-brand" href="/tests">Resultados & Exames</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="form-inline my-2 my-lg-0" style="padding: 0.5%; text-align: right;">      
+        <button class="btn btn-primary btn-sm btn-outline-success my-2 my-sm-0" id="full-data" onclick="buildTable(page)">Carregar todos os dados do sistema</button>
+        <input id="token-input" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button id="token-button" class="btn btn-primary btn-sm btn-outline-success my-2 my-sm-0" type="submit">Buscar Token</button>
       </div>
-      <div id="token">
-        <input type="text" id="token-input"/>
-        <button id="token-button">Carregar dados por token</button>
-      </div>
-      <table  class="table table-striped" >
+    </div>
+  </nav>
+
+
+  <body class="bg-primary">
+    <div class="container-fluid" >     
+      <table  class="table" >
         <thead></thead>
         <tbody></tbody>
       </table>
-      <div id="results-token" style="text-align: left;""></div>
+      <div id="results-token" style="text-align: left;"></div>
       <label id="test"></label>
     </div>
     <div class="rspec-wait"></div>

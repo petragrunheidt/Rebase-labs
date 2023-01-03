@@ -4,7 +4,6 @@ require './queryservice.rb'
 
 describe 'test if it works', {:type => :feature} do  
   before(:all) do
-    include Capybara::DSL
     Capybara.current_driver = :selenium
     
     #QueryService.new.populate("./data.csv", 'EXAM_DATA')

@@ -29,7 +29,7 @@ function buildTable(page) {
   }).catch(function(error) {
     console.log(error);
   });
-  const button = document.getElementById('start')
+  const button = document.getElementById('full-data')
   button.remove();
 }
 
@@ -70,5 +70,7 @@ tokenButton.addEventListener('click', function() {
           dl.appendChild(dt)
         }}
       div.appendChild(dl);
+      const button = document.getElementById('full-data')
+      button.remove();
     });
 });

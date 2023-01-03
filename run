@@ -10,7 +10,7 @@ docker run -it \
   -p 3000:3000 \
   --network rebase-labs \
   ruby \
-  bash -c "bundler install && bundle && bundle exec rspec --init && ruby server.rb" \
+  bash -c "bundler install && bundle && ruby server.rb" \
 
 
 

@@ -15,6 +15,7 @@ end
 Capybara.javascript_driver = :selenium
 
 RSpec.configure do |config|
+  config.include Capybara::DSL
   config.include Rack::Test::Methods
   
   config.before(:example) do
