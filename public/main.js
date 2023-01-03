@@ -41,35 +41,88 @@ const tokenButton = document.getElementById('token-button');
 tokenButton.addEventListener('click', function() {
   const params = tokenInput.value;
   fetch(`http://localhost:3000/api/test/${params}`)
-    .then(response => response.json())
+  .then(response => {
+    if (response.status === 404) {
+      const error = document.createElement('h2');
+      error.textContent = 'token não encontrado.';
+      document.getElementById('results-token').appendChild(error);
+    }
+    return response.json();
+    })
     .then(data => {
       const patientData = Object.fromEntries(Object.entries(data).slice(0,5))
       const medicData = data['médico']
       const examsData = data['exames']
 
-      div = document.getElementById('results-token')
+      titleDiv = document.getElementById('results-token')
       const h2 = document.createElement('h2');
       h2.textContent = `Resultados da busca por: ${data['token']}`
-      div.appendChild(h2);
-      const dl = document.createElement('dl')
+      titleDiv.appendChild(h2);
+      
+      rowDiv = document.getElementById('row-token')
+
+      const colOne = document.createElement('div')
+      colOne.class = "col-4" 
+      const cardOne = document.createElement('div')
+      cardOne.class = "card"
+      cardOne.style = "width: 40%;"
+      const titleOne = document.createElement('h5')
+      cardOne.appendChild(titleOne)
+      titleOne.class = "card-title"
+      titleOne.textContent = "Dados Paciente"
+      const dlOne = document.createElement('dl')
+      cardOne.appendChild(dlOne)
+      colOne.appendChild(cardOne)
+      rowDiv.appendChild(colOne)
+
+      const colTwo = document.createElement('div')
+      colTwo.class = "col-4"
+      const cardTwo = document.createElement('div')
+      cardTwo.class = "card"
+      cardTwo.style = "width: 40%;"
+      const titleTwo = document.createElement('h5')
+      cardTwo.appendChild(titleTwo)
+      titleTwo.class = "card-title"
+      titleTwo.textContent = "Dados Médico"
+      const dlTwo = document.createElement('dl')
+      cardTwo.appendChild(dlTwo)
+      colTwo.appendChild(cardTwo)
+      rowDiv.appendChild(colTwo)
+      
+      const colThree = document.createElement('div')
+      colThree.class = "col-4"
+      const cardThree = document.createElement('div')
+      cardThree.class = "card"
+      cardThree.style = "width: 30%; background-color: #8848ff;"
+      const titleThree = document.createElement('h5')
+      cardThree.appendChild(titleThree)
+      titleThree.class = "card-title"
+      titleThree.textContent = "Dados de Exames"
+      const dlThree = document.createElement('dl')
+      cardThree.appendChild(dlThree)
+      colThree.appendChild(cardThree)
+      rowDiv.appendChild(colThree)
+
      
       for (var property in patientData) {
-        const dt = document.createElement('dt')
-        dt.textContent = `${property}: ${patientData[property]}`
-        dl.appendChild(dt)
+        const p = document.createElement('p')
+        p.textContent = `${property.toUpperCase()}: ${patientData[property]}`
+        dlOne.appendChild(p)
       };
       for (var property in medicData) {
-        const dt = document.createElement('dt')
-        dt.textContent = `${property}: ${medicData[property]}`
-        dl.appendChild(dt)
+        const p = document.createElement('p')
+        p.textContent = `${property.toUpperCase()}: ${medicData[property]}`
+        dlTwo.appendChild(p)
       }
       for (var i = 0; i < examsData.length; i++) {
+        hr = document.createElement('hr')
+        dlThree.appendChild(hr)
         for (var property in examsData[i]) {
-          const dt = document.createElement('dt')
-          dt.textContent = `${property}: ${examsData[i][property]}`
-          dl.appendChild(dt)
+          const p = document.createElement('p')
+          p.textContent = `${property.toUpperCase()}: ${examsData[i][property]}`
+          dlThree.appendChild(p)
         }}
-      div.appendChild(dl);
+
       const button = document.getElementById('full-data')
       button.remove();
     });
