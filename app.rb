@@ -2,8 +2,9 @@ require 'sinatra'
 require 'pg'
 require_relative 'queryservice'
 require './app/jobs/my_job'
+require 'uri'
 
-get '/tests' do
+get '/' do
   send_file './views/tests.html'
 end
 
@@ -24,7 +25,12 @@ get '/api/test/:token' do
 end
 
 post '/import' do #csv também pode ser passado por params
-  csv = request.body.read
-  MyJob.perform_async(csv)
+  if params[:csv_file] && params[:csv_file][:filename]
+    csv = params[:csv_file][:tempfile]
+    data = QueryService.new.csv_parse(csv)
+    MyJob.perform_async(data)
+  end
+  # csv = URI.unescape(params['file'])
+  # csv = request.body.read  
   'ok'
 end

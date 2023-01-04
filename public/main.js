@@ -1,6 +1,8 @@
 const fragment = new DocumentFragment();
 const url = 'http://localhost:3000/api/tests/';
-
+const tokenInput = document.getElementById('token-input');
+const tokenButton = document.getElementById('token-button');
+const error = document.getElementById('error-message');
 var page = 1
 
 function buildTable(page) {
@@ -33,12 +35,6 @@ function buildTable(page) {
   const button = document.getElementById('full-data')
   button.remove();
 }
-
-
-const tokenInput = document.getElementById('token-input');
-const tokenButton = document.getElementById('token-button');
-const error = document.getElementById('error-message');
-
 
 tokenButton.addEventListener('click', function() {
   const params = tokenInput.value;
@@ -133,17 +129,42 @@ tokenButton.addEventListener('click', function() {
     });
 });
 
-function post() {
-  fetch('http://localhost:3000/import', {
+const fileInput = document.getElementById('file-input');
+const importButton = document.getElementById('import-button');
+
+async function readCSV(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = event => {
+      const csv = event.target.result;
+      resolve(csv);
+    };
+    reader.onerror = reject;
+    reader.readAsText(file);
+  });
+}
+
+importButton.addEventListener('click', async () => {
+  console.log('lala')
+  error.remove();
+  if (fileInput.files.length === 0) {
+    error.textContent = "Insira um arquivo csv válido para importar dados."
+    return;
+  }
+  const file = fileInput.files[0];
+  const csv = await readCSV(file);
+  console.log(csv)
+  const response = await fetch(`/import`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
-  },
-    body: JSON.stringify({
-      name: 'John',
-      email: 'john@example.com'
-    })
-  })
-  .then(response => response.json())
-  .then(data => console.log(data));
-}
+      'Content-Type': 'text/csv',
+    },
+    body: csv,
+  });
+
+  if (response.ok) {
+    console.log('Success');
+  } else {
+    console.error('Error');
+  }
+});

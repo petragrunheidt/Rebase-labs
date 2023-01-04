@@ -11,6 +11,12 @@
     <a class="navbar-brand " href="/tests">Resultados & Exames</a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <div class="form-inline my-2 my-lg-0" style="padding: 0.5%; text-align: right;">
+
+        <form action="/import" method="POST" enctype="multipart/form-data">
+          <input type="file" name="csv_file" accept=".csv" class="form-control mr-sm-2">
+          <button type="submit" class="btn btn-sm btn-outline-success my-2 my-sm-0" style="background-color: #ffd000;">Importar CSV</button>
+        </form>
+        
         <button class="btn btn-sm btn-outline-success my-2 my-sm-0" id="lala-button" style="background-color: #ffd000;" onclick="post()">lala</button>      
         <button class="btn btn-sm btn-outline-success my-2 my-sm-0" id="full-data" style="background-color: #ffd000;" onclick="buildTable(page)">Carregar todos os dados do sistema</button>
         <input id="token-input" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
