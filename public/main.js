@@ -1,5 +1,6 @@
 const fragment = new DocumentFragment();
 const url = 'http://localhost:3000/api/tests/';
+
 var page = 1
 
 function buildTable(page) {
@@ -36,17 +37,19 @@ function buildTable(page) {
 
 const tokenInput = document.getElementById('token-input');
 const tokenButton = document.getElementById('token-button');
+const error = document.getElementById('error-message');
 
 
 tokenButton.addEventListener('click', function() {
   const params = tokenInput.value;
   fetch(`http://localhost:3000/api/test/${params}`)
   .then(response => {
-    if (response.status === 404) {
-      const error = document.createElement('h2');
+
+    if (response.status === 404) {     
       error.textContent = 'token não encontrado.';
       document.getElementById('results-token').appendChild(error);
     }
+
     return response.json();
     })
     .then(data => {
@@ -59,49 +62,50 @@ tokenButton.addEventListener('click', function() {
       h2.textContent = `Resultados da busca por: ${data['token']}`
       titleDiv.appendChild(h2);
       
-      rowDiv = document.getElementById('row-token')
+      rowOne = document.getElementById('row-token-one')
+      rowTwo = document.getElementById('row-token-two')
 
       const colOne = document.createElement('div')
       colOne.class = "col-4" 
       const cardOne = document.createElement('div')
       cardOne.class = "card"
-      cardOne.style = "width: 40%;"
-      const titleOne = document.createElement('h5')
+      cardOne.style = "width: 30%; background-color: #8848ff; padding: 3%;"
+      const titleOne = document.createElement('h3')
       cardOne.appendChild(titleOne)
       titleOne.class = "card-title"
       titleOne.textContent = "Dados Paciente"
       const dlOne = document.createElement('dl')
       cardOne.appendChild(dlOne)
       colOne.appendChild(cardOne)
-      rowDiv.appendChild(colOne)
+      rowOne.appendChild(colOne)
 
       const colTwo = document.createElement('div')
       colTwo.class = "col-4"
       const cardTwo = document.createElement('div')
       cardTwo.class = "card"
-      cardTwo.style = "width: 40%;"
-      const titleTwo = document.createElement('h5')
+      cardTwo.style = "width: 30%; background-color: #8848ff; padding: 3%;"
+      const titleTwo = document.createElement('h3')
       cardTwo.appendChild(titleTwo)
       titleTwo.class = "card-title"
       titleTwo.textContent = "Dados Médico"
       const dlTwo = document.createElement('dl')
       cardTwo.appendChild(dlTwo)
       colTwo.appendChild(cardTwo)
-      rowDiv.appendChild(colTwo)
+      rowOne.appendChild(colTwo)
       
       const colThree = document.createElement('div')
       colThree.class = "col-4"
       const cardThree = document.createElement('div')
       cardThree.class = "card"
-      cardThree.style = "width: 30%; background-color: #8848ff;"
-      const titleThree = document.createElement('h5')
+      cardThree.style = "width: 30%; background-color: #8848ff; padding: 3%;"
+      const titleThree = document.createElement('h3')
       cardThree.appendChild(titleThree)
       titleThree.class = "card-title"
       titleThree.textContent = "Dados de Exames"
       const dlThree = document.createElement('dl')
       cardThree.appendChild(dlThree)
       colThree.appendChild(cardThree)
-      rowDiv.appendChild(colThree)
+      rowTwo.appendChild(colThree)
 
      
       for (var property in patientData) {
@@ -125,5 +129,21 @@ tokenButton.addEventListener('click', function() {
 
       const button = document.getElementById('full-data')
       button.remove();
+      error.remove();
     });
 });
+
+function post() {
+  fetch('http://localhost:3000/import', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+  },
+    body: JSON.stringify({
+      name: 'John',
+      email: 'john@example.com'
+    })
+  })
+  .then(response => response.json())
+  .then(data => console.log(data));
+}

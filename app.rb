@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'pg'
 require_relative 'queryservice'
+require './app/jobs/my_job'
 
 get '/tests' do
   send_file './views/tests.html'
@@ -20,4 +21,10 @@ end
 get '/api/test/:token' do
   exam_table = QueryService.new.select_by_token('EXAM_DATA', params['token'])
   return exam_table.to_json
+end
+
+post '/import' do #csv também pode ser passado por params
+  csv = request.body.read
+  MyJob.perform_async(csv)
+  'ok'
 end

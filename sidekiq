@@ -1,0 +1,12 @@
+#!/bin/bash
+
+docker compose run \
+  --name sidekiq \
+  -it \
+  --rm \
+  --name ruby \
+  app \
+  bash -c 'sidekiq -r ./app/jobs/my_job.rb'
+
+# export REDIS_URL=redis://redis:6379/0
+# sidekiq r './app/jobs/my_jobs.rb'

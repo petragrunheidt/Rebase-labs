@@ -10,7 +10,8 @@
   <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #8848ff;">
     <a class="navbar-brand " href="/tests">Resultados & Exames</a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <div class="form-inline my-2 my-lg-0" style="padding: 0.5%; text-align: right;">      
+      <div class="form-inline my-2 my-lg-0" style="padding: 0.5%; text-align: right;">
+        <button class="btn btn-sm btn-outline-success my-2 my-sm-0" id="lala-button" style="background-color: #ffd000;" onclick="post()">lala</button>      
         <button class="btn btn-sm btn-outline-success my-2 my-sm-0" id="full-data" style="background-color: #ffd000;" onclick="buildTable(page)">Carregar todos os dados do sistema</button>
         <input id="token-input" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
         <button id="token-button" class="btn btn-sm btn-outline-success my-2 my-sm-0" type="submit" style="background-color: #ffd000;">Buscar Token</button>
@@ -20,14 +21,16 @@
 
 
   <body style="background-color: #e5d7ff;">
-    <div class="container-flex mx-auto px-3 rounded"  style="padding: 2%; width: 98%;"> 
+    <div class="container-flex mx-auto px-3 rounded"  style="padding: 2%; width: 98%;">
+      <h2 id="error-message"></h2>
       <table  class="table table-striped" >
         <thead></thead>
         <tbody></tbody>
       </table>
       <div id="results-token" style="text-align: left;"></div>
-      <div class="row" id="row-token"></div>
-      
+
+      <div class="row" id="row-token-one"></div>
+      <div class="row" id="row-token-two"></div>
     </div>
     <script type="text/javascript" src="main.js"></script>
   </body>

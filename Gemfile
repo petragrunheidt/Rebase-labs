@@ -12,6 +12,7 @@ gem 'puma'
 gem "activesupport"
 gem 'test-unit'
 gem 'nio'
+gem 'sidekiq'
 
 group :development, :test do
   gem "selenium-webdriver"

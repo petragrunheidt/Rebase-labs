@@ -1,0 +1,14 @@
+#!/bin/bash
+
+docker compose run \
+--name redis \
+--rm \
+redis
+
+# docker exec -t redis bash
+# redis-cli = irb
+# redis-cli SET key value
+# redis-cli GET key
+# redis-cli LPUSH my.csv.queue "lala;54;lai;43"
+# redis-cli RPOP my.csv.queue
+# redis-cli BLPOP myqueue 3
