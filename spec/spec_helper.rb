@@ -47,11 +47,11 @@ RSpec.configure do |config|
     # conn.close
   
   end
-  # config.after(:example) do
-  #   conn = PG.connect(host: 'postgres', dbname: 'postgres', user: 'postgres')
-  #   conn.exec("DROP TABLE IF EXISTS TEST;")
-  #   conn.close
-  # end
+  config.after(:example) do
+    conn = PG.connect(host: 'postgres', dbname: 'postgres', user: 'postgres')
+    conn.exec("DROP TABLE IF EXISTS TEST;")
+    conn.close
+  end
  
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true

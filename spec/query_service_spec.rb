@@ -6,11 +6,12 @@ describe 'QueryService' do
   def app
     Sinatra::Application
   end
-  
-  it "metodo populate cria tabela e insere dados a partir de arquivo csv" do
+
+  it "metodo insert_values insere dados a partir de arquivo csv" do
     conn = PG.connect(host: 'postgres', dbname: 'postgres', user: 'postgres')
     qs = QueryService.new
-    qs.populate("./spec/support/small_test_data.csv","TEST")
+    qs.create_table('TEST')
+    qs.insert_values(qs.csv_parse("./spec/support/small_test_data.csv"),"TEST")
     result = conn.exec("SELECT * FROM TEST").to_a
     
     expect(result.length).to eq 3

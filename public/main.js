@@ -5,6 +5,8 @@ const tokenButton = document.getElementById('token-button');
 const error = document.getElementById('error-message');
 var page = 1
 
+
+
 function buildTable(page) {
   fetch(`${url}${page}`).
   then((response) => response.json()).
@@ -144,8 +146,8 @@ async function readCSV(file) {
   });
 }
 
+
 importButton.addEventListener('click', async () => {
-  console.log('lala')
   error.remove();
   if (fileInput.files.length === 0) {
     error.textContent = "Insira um arquivo csv válido para importar dados."
@@ -153,13 +155,13 @@ importButton.addEventListener('click', async () => {
   }
   const file = fileInput.files[0];
   const csv = await readCSV(file);
-  console.log(csv)
-  const response = await fetch(`/import`, {
+  const csvParsed = csv.replace(' ', '%')
+  const response = await fetch(`http://localhost:3000/import`, {
     method: 'POST',
     headers: {
       'Content-Type': 'text/csv',
     },
-    body: csv,
+    body: csvParsed,
   });
 
   if (response.ok) {

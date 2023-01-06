@@ -40,7 +40,7 @@ class QueryService
 
   def populate(path, table_name)
     create_table(table_name)
-    insert_values(path, table_name)
+    insert_values(csv_parse_read(path), table_name)
   end
 
   def create_table(table_name)
@@ -67,38 +67,8 @@ class QueryService
              ")
   end
 
-  def insert_values(path, table_name)
-    csv_parse(path).each do |row_insert|
-      @conn.exec("
-        INSERT INTO #{table_name} (cpf, nome_paciente, email_paciente, data_nascimento_paciente,
-                               endereço_paciente, cidade_paciente, estado_paciente, crm_médico,
-                               crm_médico_estado, nome_médico, email_médico, token_resultado_exame,
-                               data_exame, tipo_exame, limites_tipo_exame, resultado_tipo_exame)
-        VALUES ('#{row_insert['cpf']}\', '#{row_insert['nome paciente']}\', '#{row_insert['email paciente']}\', '#{row_insert['data nascimento paciente']}\',
-                '#{row_insert['endereço paciente']}\', '#{@conn.escape_string(row_insert['cidade paciente'])}\', '#{row_insert['estado paciente']}\','#{row_insert['crm médico']}\',
-                '#{row_insert['crm médico estado']}\', '#{row_insert['nome médico']}\', '#{row_insert['email médico']}\', '#{row_insert['token resultado exame']}\',
-                '#{row_insert['data exame']}\', '#{row_insert['tipo exame']}\', '#{row_insert['limites tipo exame']}\', '#{row_insert['resultado tipo exame']}\');
-        ")
-    end
-  end
-
-  def csv_parse(path)
-    rows = CSV.read(path, col_sep: ';')
-    columns = rows.shift
-
-    rows.map do |row|
-      row.each_with_object({}).with_index do |(cell, acc), idx|
-        column = columns[idx]
-        acc[column] = cell
-      end
-    end
-  end
-
-  def exit
-    @conn.close
-  end
-
-  def insert_values_no_parse(csv, table_name)
+  def insert_values(csv, table_name)
+    puts csv
     csv.each do |row_insert|
       @conn.exec("
         INSERT INTO #{table_name} (cpf, nome_paciente, email_paciente, data_nascimento_paciente,
@@ -112,6 +82,34 @@ class QueryService
         ")
     end
   end
+
+  def csv_parse_read(path)
+    rows = CSV.read(path, col_sep: ';')
+    columns = rows.shift
+
+    rows.map do |row|
+      row.each_with_object({}).with_index do |(cell, acc), idx|
+        column = columns[idx]
+        acc[column] = cell
+      end
+    end
+  end
+
+  def csv_parse(csv_string)
+    rows = CSV.parse(csv_string, col_sep: ';')
+    columns = rows.shift
+
+    rows.map do |row|
+      row.each_with_object({}).with_index do |(cell, acc), idx|
+        column = columns[idx]
+        acc[column] = cell
+      end
+    end
+  end
+
+  def exit
+    @conn.close
+  end
 end
 
-QueryService.new.populate("./data.csv", 'EXAM_DATA')
+
