@@ -2,6 +2,7 @@ require 'sinatra'
 require 'pg'
 require_relative 'queryservice'
 require './app/jobs/my_job'
+require 'json'
 
 get '/' do
   send_file './views/tests.html'
@@ -24,7 +25,7 @@ get '/api/test/:token' do
 end
 
 post '/import' do 
-  csv = request.body.read.gsub('%', ' ')
+  csv = request.body.read.gsub('%', ' ').to_json
   MyJob.perform_async(csv)
   # data = request.body.read
 end
