@@ -149,11 +149,11 @@ async function readCSV(file) {
 
 importButton.addEventListener('click', async () => {
   error.remove();
-  if (fileInput.files.length === 0) {
+  const file = fileInput.files[0];
+  if (file.length === 0) {
     error.textContent = "Insira um arquivo csv válido para importar dados."
     return;
   }
-  const file = fileInput.files[0];
   const csv = await readCSV(file);
   const csvParsed = csv.replace(' ', '%')
   const response = await fetch(`http://localhost:3000/import`, {

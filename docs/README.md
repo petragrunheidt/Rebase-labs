@@ -18,9 +18,10 @@ Uma app web para listagem de exames médicos.
 
 ## Como rodar a aplicação
 
-Com Docker Compose instalado em seu sistema, rode o comando  `docker compose -d up` para iniciar a aplicação inicial e em seguida rode o comando `docker exec app ruby import_from_csv.rb` para popular o banco de dados. Em seguida, execute o comando `bash sidekiq` para subir a aplicação para o processamento assíncrono de dados.
+Com Docker Compose instalado em seu sistema, rode o comando  `docker compose -d up` para iniciar a aplicação inicial e em seguida rode o comando `docker exec app ruby import_from_csv.rb` para popular o banco de dados.
 
 A partir desse ponto será possível acessar a aplicação pelo endereço `https://localhost:3000/`
+
 Caso queira rodar todos os testes automatizados, utilize o comando  `docker exec app rspec`
 
 ## Documentação de APIs

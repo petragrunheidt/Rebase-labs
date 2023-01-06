@@ -11,7 +11,7 @@ describe 'QueryService' do
     conn = PG.connect(host: 'postgres', dbname: 'postgres', user: 'postgres')
     qs = QueryService.new
     qs.create_table('TEST')
-    qs.insert_values(qs.csv_parse("./spec/support/small_test_data.csv"),"TEST")
+    qs.insert_values(qs.csv_parse_read("./spec/support/small_test_data.csv"),"TEST")
     result = conn.exec("SELECT * FROM TEST").to_a
     
     expect(result.length).to eq 3

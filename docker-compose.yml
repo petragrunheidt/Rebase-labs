@@ -35,6 +35,27 @@ services:
     networks:
       - rebase-labs
 
+  # selenium:
+  #   container_name: selenium
+  #   image: selenium/standalone-chrome
+  #   networks:
+  #     - rebase-labs
+  
+  sidekiq:
+    container_name: sidekiq
+    image: ruby
+    working_dir: /app
+    volumes:
+      - .:/app
+      - rubygems:/usr/local/bundle
+      - gemconfig:/root/.local/share/gem
+    command: bash -c 'sidekiq -r ./app/jobs/my_job.rb'
+    environment:
+      REDIS_URL: redis://redis:6379/0
+    networks:
+      - rebase-labs
+
+
 volumes:
   rubygems:
   pgdata:

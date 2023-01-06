@@ -3,8 +3,6 @@ require "./environment.rb"
 require "./app.rb"
 require 'capybara/rspec'
 require 'test/unit'
-require 'nio'
-
 
 Capybara.app = Sinatra::Application.new
 

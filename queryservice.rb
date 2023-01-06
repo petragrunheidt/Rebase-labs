@@ -68,7 +68,6 @@ class QueryService
   end
 
   def insert_values(csv, table_name)
-    puts csv
     csv.each do |row_insert|
       @conn.exec("
         INSERT INTO #{table_name} (cpf, nome_paciente, email_paciente, data_nascimento_paciente,
