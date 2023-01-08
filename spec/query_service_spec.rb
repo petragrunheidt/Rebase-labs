@@ -8,7 +8,7 @@ describe 'QueryService' do
   end
 
   it "metodo insert_values insere dados a partir de arquivo csv" do
-    qs = QueryService.new('test')
+    qs = QueryService.new("#{ENV['RACK_ENV']}")
     qs.create_table('EXAM_DATA')
     qs.insert_values(qs.csv_parse_read("./spec/support/small_test_data.csv"),"EXAM_DATA")
     result = qs.all('EXAM_DATA').to_a
@@ -29,7 +29,7 @@ describe 'QueryService' do
   end
 
   it "metodo populate cria tabela e insere dados a partir de arquivo csv" do
-    qs = QueryService.new('test')
+    qs = QueryService.new("#{ENV['RACK_ENV']}")
     qs.populate("./spec/support/small_test_data.csv","EXAM_DATA")
     result = qs.all('EXAM_DATA').to_a
     
