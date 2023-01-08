@@ -1,4 +1,3 @@
-ENV['RACK_ENV'] = 'test'
 require "./environment.rb"
 require "./app.rb"
 require 'capybara/rspec'
@@ -20,7 +19,8 @@ RSpec.configure do |config|
     config.run_all_when_everything_filtered = true
     config.filter_run :focus
     config.order = 'random'
-    
+
+    ENV['RACK_ENV'] = 'test'
     qs = QueryService.new('test')
     qs.create_table('EXAM_DATA')
     qs.conn_close
@@ -31,6 +31,7 @@ RSpec.configure do |config|
     qs = QueryService.new('test')
     qs.delete_database
     qs.conn_close
+    ENV['RACK_ENV'] = 'development' 
   end
  
   config.expect_with :rspec do |expectations|

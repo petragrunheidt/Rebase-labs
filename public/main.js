@@ -65,7 +65,7 @@ function buildTable(page) {
 }
 
 function previousPage() {
-  if (page > 0) {
+  if (page > 1) {
     page -= 1  
     buildTable(page)
   }

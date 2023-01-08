@@ -9,7 +9,8 @@ class QueryService
 
   def all(table_name)
     @conn.exec("SELECT token_resultado_exame, data_exame, cpf, nome_paciente,
-        email_paciente, data_nascimento_paciente, crm_médico, crm_médico_estado,
+        email_paciente, data_nascimento_paciente, endereço_paciente, cidade_paciente,
+         estado_paciente, crm_médico, crm_médico_estado, email_médico,
         nome_médico, tipo_exame, limites_tipo_exame, resultado_tipo_exame FROM #{table_name}").to_a
   end
 

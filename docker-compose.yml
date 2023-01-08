@@ -17,8 +17,8 @@ services:
       REDIS_URL: redis://redis:6379/0
     command: bash -c "bundle && ruby server.rb"
 
-  postgres:
-    container_name: postgres
+  developmentpostgres:
+    container_name: developmentpostgres
     image: postgres
     volumes:
       - pgdata:/var/lib/postgresql/data    

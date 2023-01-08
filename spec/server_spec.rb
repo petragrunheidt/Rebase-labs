@@ -14,14 +14,41 @@ describe 'Server Service' do
   end
 
   it "carrega api com dados completos de exames" do
+    qs = QueryService.new("#{ENV['RACK_ENV']}")
+    qs.insert_values(qs.csv_parse_read('./spec/support/small_test_data.csv'), 'EXAM_DATA')
     get '/api/tests'
     expect(last_response.status).to eq 200
     expect(last_response.body).to include 'cpf'
     expect(last_response.body).to include 'nome_paciente'
+    expect(last_response.body).to include 'email_paciente'
+    expect(last_response.body).to include 'data_nascimento_paciente'
+    expect(last_response.body).to include 'endereço_paciente'
+    expect(last_response.body).to include 'cidade_paciente'
+    expect(last_response.body).to include 'estado_paciente'
+    expect(last_response.body).to include 'crm_médico'
+    expect(last_response.body).to include 'crm_médico_estado'
+    expect(last_response.body).to include 'nome_médico'
+    expect(last_response.body).to include 'email_médico'
+    expect(last_response.body).to include 'token_resultado_exame'
+    expect(last_response.body).to include 'data_exame'
+    expect(last_response.body).to include 'tipo_exame'
+    expect(last_response.body).to include 'limites_tipo_exame'
+    expect(last_response.body).to include 'resultado_tipo_exame'
+
+  end
+
+  it 'carrega api com dados das 100 primeiras entradas do banco de dados' do
+    qs = QueryService.new("#{ENV['RACK_ENV']}")
+    qs.insert_values(qs.csv_parse_read('./spec/support/big_test_data.csv'), 'EXAM_DATA')
+    get '/api/tests/1'
+    expect(last_response.status).to eq 200
+    expect(JSON.parse(last_response.body).length).to eq 100
   end
 
   it "carrega api com dados de um token" do
-    get '/api/test/IQCZ17'
+    qs = QueryService.new("#{ENV['RACK_ENV']}")
+    qs.insert_values(qs.csv_parse_read('./spec/support/small_test_data.csv'), 'EXAM_DATA')
+    get '/api/test/TEST33'
 
     expect(last_response.status).to eq 200
     expect(last_response.body).to include 'token'
