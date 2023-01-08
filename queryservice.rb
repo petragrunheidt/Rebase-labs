@@ -3,8 +3,8 @@ require 'csv'
 
 class QueryService
   
-  def initialize
-    @conn = PG.connect(host: 'postgres', dbname: 'postgres', user: 'postgres')
+  def initialize(env)
+    @conn = PG.connect(host: "#{env}postgres", dbname: "postgres", user: 'postgres')
   end
 
   def all(table_name)
@@ -106,7 +106,10 @@ class QueryService
     end
   end
 
-  def exit
+  def delete_database
+    @conn.exec("DROP TABLE IF EXISTS EXAM_DATA;")
+  end
+  def conn_close
     @conn.close
   end
 end

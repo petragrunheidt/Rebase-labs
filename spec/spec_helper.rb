@@ -21,34 +21,16 @@ RSpec.configure do |config|
     config.filter_run :focus
     config.order = 'random'
     
-    # conn = PG.connect(host: 'postgres', dbname: 'postgres', user: 'postgres')
-    # conn.exec("
-    #   CREATE TABLE TEST (
-    #   id SERIAL PRIMARY KEY,
-    #   cpf VARCHAR(24) NOT NULL,
-    #   nome_paciente VARCHAR(64) NOT NULL,
-    #   email_paciente VARCHAR(64) NOT NULL,
-    #   data_nascimento_paciente DATE NOT NULL,
-    #   endereço_paciente VARCHAR(64) NOT NULL,
-    #   cidade_paciente VARCHAR(64) NOT NULL,
-    #   estado_paciente VARCHAR(64) NOT NULL,
-    #   crm_médico VARCHAR(64) NOT NULL,
-    #   crm_médico_estado VARCHAR(64) NOT NULL,
-    #   nome_médico VARCHAR(64) NOT NULL,
-    #   email_médico VARCHAR(64) NOT NULL,
-    #   token_resultado_exame VARCHAR(64) NOT NULL,
-    #   data_exame DATE NOT NULL,
-    #   tipo_exame VARCHAR(64) NOT NULL,
-    #   limites_tipo_exame VARCHAR(64) NOT NULL,
-    #   resultado_tipo_exame VARCHAR(64) NOT NULL);
-    #  ")
-    # conn.close
+    qs = QueryService.new('test')
+    qs.create_table('EXAM_DATA')
+    qs.conn_close
   
   end
+  
   config.after(:example) do
-    conn = PG.connect(host: 'postgres', dbname: 'postgres', user: 'postgres')
-    conn.exec("DROP TABLE IF EXISTS TEST;")
-    conn.close
+    qs = QueryService.new('test')
+    qs.delete_database
+    qs.conn_close
   end
  
   config.expect_with :rspec do |expectations|

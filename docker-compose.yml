@@ -28,18 +28,20 @@ services:
      - POSTGRES_HOST_AUTH_METHOD=trust
     command: postgres
 
+  testpostgres:
+    container_name: testpostgres
+    image: postgres 
+    networks:
+      - rebase-labs
+    environment:
+     - POSTGRES_HOST_AUTH_METHOD=trust
+    command: postgres
 
   redis:
     container_name: redis
     image: redis
     networks:
       - rebase-labs
-
-  # selenium:
-  #   container_name: selenium
-  #   image: selenium/standalone-chrome
-  #   networks:
-  #     - rebase-labs
   
   sidekiq:
     container_name: sidekiq
