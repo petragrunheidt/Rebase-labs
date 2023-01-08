@@ -3,11 +3,19 @@ const url = 'http://localhost:3000/api/tests/';
 const tokenInput = document.getElementById('token-input');
 const tokenButton = document.getElementById('token-button');
 const error = document.getElementById('error-message');
-var page = 1
+const thead = document.querySelector('thead');
+const tbody = document.querySelector('tbody');
+const previous = document.getElementById('previous');
+const next = document.getElementById('next');
+const pageCount = document.getElementById('page')
+let page = 1;
 
 
 
 function buildTable(page) {
+  tbody.innerHTML = '';
+  thead.innerHTML = '';
+
   fetch(`${url}${page}`).
   then((response) => response.json()).
   then((data) => {
@@ -17,7 +25,7 @@ function buildTable(page) {
       th.style = "padding-right: 1%;"
       th.textContent = `${property.toUpperCase().replace(/_/g, " ")}`;
       fragment.appendChild(th);
-      document.querySelector('thead').appendChild(th);
+      thead.appendChild(th);
     }  
     for (var i = 0; i < data.length; i++) {
 
@@ -29,13 +37,30 @@ function buildTable(page) {
         fragment.appendChild(td);
       }
       tr.appendChild(fragment)
-      document.querySelector('tbody').appendChild(tr);
+      tbody.appendChild(tr);
      }
   }).catch(function(error) {
     console.log(error);
   });
   const button = document.getElementById('full-data')
-  button.remove();
+  if (button) {
+    button.remove();
+  }
+  previous.style = 'background-color: #ffd000; padding: 0.5%;'
+  next.style = 'background-color: #ffd000; padding: 0.5%;'
+  pageCount.textContent = `Página ${page}`
+}
+
+function previousPage() {
+  if (page > 0) {
+    page -= 1  
+    buildTable(page)
+  }
+}
+
+function nextPage() {
+  page += 1  
+  buildTable(page)
 }
 
 tokenButton.addEventListener('click', function() {
