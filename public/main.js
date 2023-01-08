@@ -9,8 +9,14 @@ const previous = document.getElementById('previous');
 const next = document.getElementById('next');
 const pageCount = document.getElementById('page')
 let page = 1;
+let dataLength = 0
+setDataLength()
 
-
+function setDataLength() {
+  fetch('http://localhost:3000/api/tests')
+  .then((response) => response.json())
+  .then((data) => {dataLength = (Math.ceil(data.length / 100))})
+}
 
 function buildTable(page) {
   tbody.innerHTML = '';
@@ -48,7 +54,7 @@ function buildTable(page) {
   }
   previous.style = 'background-color: #ffd000; padding: 0.5%;'
   next.style = 'background-color: #ffd000; padding: 0.5%;'
-  pageCount.textContent = `Página ${page}`
+  pageCount.textContent = `Página ${page}/${dataLength}`
 }
 
 function previousPage() {
@@ -59,8 +65,10 @@ function previousPage() {
 }
 
 function nextPage() {
-  page += 1  
-  buildTable(page)
+  if (page < dataLength) {
+    page += 1  
+    buildTable(page)
+  }
 }
 
 tokenButton.addEventListener('click', function() {
