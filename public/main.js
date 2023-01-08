@@ -2,7 +2,10 @@ const fragment = new DocumentFragment();
 const url = 'http://localhost:3000/api/tests/';
 const tokenInput = document.getElementById('token-input');
 const tokenButton = document.getElementById('token-button');
-const error = document.getElementById('error-message');
+const errorDiv = document.getElementById('error-message');
+const errorMessage = document.createElement('h3');
+const successDiv = document.getElementById('success-message');
+const successMessage = document.createElement('h3');
 const thead = document.querySelector('thead');
 const tbody = document.querySelector('tbody');
 const previous = document.getElementById('previous');
@@ -12,6 +15,16 @@ let page = 1;
 let dataLength = 0
 setDataLength()
 
+function cleanDisplay() {
+  tbody.innerHTML = '';
+  thead.innerHTML = '';
+  errorMessage.remove();
+  successMessage.remove();
+  next.style = 'display: none;';
+  previous.style = 'display: none;';
+  pageCount.textContent = '';
+}
+
 function setDataLength() {
   fetch('http://localhost:3000/api/tests')
   .then((response) => response.json())
@@ -19,9 +32,7 @@ function setDataLength() {
 }
 
 function buildTable(page) {
-  tbody.innerHTML = '';
-  thead.innerHTML = '';
-
+  cleanDisplay()
   fetch(`${url}${page}`).
   then((response) => response.json()).
   then((data) => {
@@ -48,10 +59,6 @@ function buildTable(page) {
   }).catch(function(error) {
     console.log(error);
   });
-  const button = document.getElementById('full-data')
-  if (button) {
-    button.remove();
-  }
   previous.style = 'background-color: #ffd000; padding: 0.5%;'
   next.style = 'background-color: #ffd000; padding: 0.5%;'
   pageCount.textContent = `Página ${page}/${dataLength}`
@@ -72,13 +79,14 @@ function nextPage() {
 }
 
 tokenButton.addEventListener('click', function() {
+  cleanDisplay()
   const params = tokenInput.value;
   fetch(`http://localhost:3000/api/test/${params}`)
   .then(response => {
 
     if (response.status === 404) {     
-      error.textContent = 'token não encontrado.';
-      document.getElementById('results-token').appendChild(error);
+      errorMessage.textContent = 'Token não encontrado.';
+      errorDiv.appendChild(errorMessage);
     }
 
     return response.json();
@@ -157,10 +165,6 @@ tokenButton.addEventListener('click', function() {
           p.textContent = `${property.toUpperCase()}: ${examsData[i][property]}`
           dlThree.appendChild(p)
         }}
-
-      const button = document.getElementById('full-data')
-      button.remove();
-      error.remove();
     });
 });
 
@@ -181,10 +185,11 @@ async function readCSV(file) {
 
 
 importButton.addEventListener('click', async () => {
-  error.remove();
+  cleanDisplay()
   const file = fileInput.files[0];
-  if (file.length === 0) {
-    error.textContent = "Insira um arquivo csv válido para importar dados."
+  if (!file) {
+    errorMessage.textContent = "Insira um arquivo csv válido para importar dados."
+    errorDiv.appendChild(errorMessage);
     return;
   }
   const csv = await readCSV(file);
@@ -199,7 +204,11 @@ importButton.addEventListener('click', async () => {
 
   if (response.ok) {
     console.log('Success');
+    successMessage.textContent = "Dados Inseridos com Sucesso."
+    successDiv.appendChild(successMessage);
   } else {
     console.error('Error');
+    errorMessage.textContent = "Erro na Requisição."
+    errorDiv.appendChild(errorMessage);
   }
 });
