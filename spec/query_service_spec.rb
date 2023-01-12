@@ -10,7 +10,7 @@ describe 'QueryService' do
   it "metodo insert_values insere dados a partir de arquivo csv" do
     qs = QueryService.new("#{ENV['RACK_ENV']}")
     qs.create_table('EXAM_DATA')
-    qs.insert_values(qs.csv_parse_read("./spec/support/small_test_data.csv"),"EXAM_DATA")
+    qs.insert_values(qs.csv_parse("./spec/support/small_test_data.csv"),"EXAM_DATA")
     result = qs.all('EXAM_DATA').to_a
     
     expect(result.length).to eq 3

@@ -7,3 +7,7 @@ form, button, input {
   white-space: nowrap;
   display: inline-block;
 }
+
+button {
+  background-color: #ffd000;
+}

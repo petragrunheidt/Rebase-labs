@@ -14,10 +14,8 @@ class QueryService
         nome_médico, tipo_exame, limites_tipo_exame, resultado_tipo_exame FROM #{table_name}").to_a
   end
 
-  def query_interval(table_name, first, last)
-    @conn.exec("SELECT token_resultado_exame, data_exame, cpf, nome_paciente,
-       email_paciente, data_nascimento_paciente, crm_médico, crm_médico_estado,
-       nome_médico, tipo_exame, limites_tipo_exame, resultado_tipo_exame FROM #{table_name}").to_a[first..last]
+  def query_interval(data, first, last)
+    data[first..last]
   end
 
   def select_by_token(table_name, token)
@@ -41,7 +39,7 @@ class QueryService
 
   def populate(path, table_name)
     create_table(table_name)
-    insert_values(csv_parse_read(path), table_name)
+    insert_values(csv_parse(path), table_name)
   end
 
   def create_table(table_name)
@@ -83,20 +81,8 @@ class QueryService
     end
   end
 
-  def csv_parse_read(path)
-    rows = CSV.read(path, col_sep: ';')
-    columns = rows.shift
-
-    rows.map do |row|
-      row.each_with_object({}).with_index do |(cell, acc), idx|
-        column = columns[idx]
-        acc[column] = cell
-      end
-    end
-  end
-
-  def csv_parse(csv_string)
-    rows = CSV.parse(csv_string, col_sep: ';')
+  def csv_parse(csv)
+    csv[-4..-1] == '.csv' ? rows = CSV.read(csv, col_sep: ';') : rows = CSV.parse(csv, col_sep: ';')
     columns = rows.shift
 
     rows.map do |row|
