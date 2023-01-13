@@ -17,9 +17,8 @@ end
 get '/api/tests/:page' do
   selection = params['page'].to_i * 100
   qs = QueryService.new("#{ENV['RACK_ENV']}")
-  full_data = qs.all('EXAM_DATA')
-  split_data = qs.query_interval(full_data, selection - 100, selection - 1)
-  return split_data.to_json
+  page_data = qs.query_interval('EXAM_DATA', selection - 100, selection - 1)
+  return page_data.to_json
 end
 
 get '/api/test/:token' do

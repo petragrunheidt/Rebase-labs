@@ -2,6 +2,7 @@ const fragment = new DocumentFragment();
 const url = 'http://localhost:3000/api/tests/';
 const tokenInput = document.getElementById('token-input');
 const tokenButton = document.getElementById('token-button');
+const titleDiv = document.getElementById('results-token');
 const errorDiv = document.getElementById('error-message');
 const errorMessage = document.createElement('h3');
 const successDiv = document.getElementById('success-message');
@@ -10,12 +11,17 @@ const thead = document.querySelector('thead');
 const tbody = document.querySelector('tbody');
 const previous = document.getElementById('previous');
 const next = document.getElementById('next');
-const pageCount = document.getElementById('page')
+const pageCount = document.getElementById('page');
+const rowOne = document.getElementById('row-token-one')
+const rowTwo = document.getElementById('row-token-two')
 let page = 1;
 let dataLength = 0
 setDataLength()
 
 function cleanDisplay() {
+  rowOne.innerHTML = '';
+  rowTwo.innerHTML = '';
+  titleDiv.innerHTML = '';
   tbody.innerHTML = '';
   thead.innerHTML = '';
   errorMessage.remove();
@@ -96,13 +102,9 @@ tokenButton.addEventListener('click', function() {
       const medicData = data['médico']
       const examsData = data['exames']
 
-      titleDiv = document.getElementById('results-token')
       const h2 = document.createElement('h2');
       h2.textContent = `Resultados da busca por: ${data['token']}`
       titleDiv.appendChild(h2);
-      
-      rowOne = document.getElementById('row-token-one')
-      rowTwo = document.getElementById('row-token-two')
 
       const colOne = document.createElement('div')
       colOne.class = "col-4" 
