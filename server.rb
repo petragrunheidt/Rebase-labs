@@ -1,5 +1,4 @@
 require 'sinatra'
-require 'pry'
 require 'rack/handler/puma'
 require 'csv'
 require_relative 'queryservice'
